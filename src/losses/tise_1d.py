@@ -37,10 +37,10 @@ def boundary_loss(model: torch.nn.Module, L: float = 1.0)-> torch.Tensor:
     return torch.mean(psi_bc ** 2) 
 
 def normalization_loss(model: torch.nn.Module, x_collocation: torch.Tensor, L: float = 1.0) -> torch.Tensor:
-    """Enforces integral(|psi|^2 dx) = 1 via Riemann sum approximation"""
+    """Enforces integral(|psi|^2 dx) = 1 via trapezoidal quadrature."""
     psi = model(x_collocation)
     domain_length = 2.0 * L
-    dx = domain_length / x_collocation.shape[0]
-    prob_density_integral = torch.sum(psi ** 2) * dx
+    dx = domain_length / (x_collocation.shape[0] - 1)
+    prob_density_integral = torch.trapezoid(psi.squeeze() ** 2, dx=dx)
 
     return (prob_density_integral - 1.0) ** 2
