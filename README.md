@@ -1,4 +1,4 @@
-# Schrödinger PINN
+# Schrödinger PINN (in progress)
 
 A physics-informed neural network that **discovers** the ground-state energy of the 1-D
 time-independent Schrödinger equation, rather than being trained against a known solution.
